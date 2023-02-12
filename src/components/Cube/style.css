@@ -1,0 +1,26 @@
+.cube {
+  width: 200px;
+  height: 200px;
+  background-color: gray;
+  cursor: grab;
+
+  animation: rotation 2s ease  infinite forwards;
+}
+
+
+@media (width < 400px){
+  .cube {
+    display: none;
+  }
+}
+
+@keyframes rotation {
+  from {
+
+    transform: rotateX(0) rotateY(0);
+  }
+  to {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+  
+}
