@@ -2,4 +2,4 @@
 
 Digital simulation magic cube
 
-#game
+#game #colors
