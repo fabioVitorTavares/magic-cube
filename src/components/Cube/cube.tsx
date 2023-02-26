@@ -6,7 +6,14 @@ import { useEffect, useRef, useState } from "react";
 
 import { randInt } from "three/src/math/MathUtils";
 import { cube1x1Props } from "../../types/types";
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import {
+  BufferGeometry,
+  Euler,
+  Material,
+  Mesh,
+  MeshBasicMaterial,
+  Vector3,
+} from "three";
 
 export function Cube() {
   const ref = useRef<THREE.Mesh>(null!);
@@ -16,15 +23,13 @@ export function Cube() {
   const [degZ, setDegZ] = useState<number>(0);
 
   useEffect(() => {
-    refCube3x3?.current?.setRotationFromAxisAngle(new Vector3(1, 0, 0), 60);
+     ref?.current?.setRotationFromAxisAngle(new Vector3(0, 1, 1), 1); 
+    
   }, []);
 
-  
   type T = {
-    (angle: number): BufferGeometry
-  }
-  
-  
+    (angle: number): BufferGeometry;
+  };
 
   const defaultColors = ["black", "black", "black", "black", "black", "black"];
   function cube1x1({
@@ -34,11 +39,17 @@ export function Cube() {
     colors = defaultColors,
   }: cube1x1Props) {
     return (
-      <mesh >
-        <OrbitControls autoRotate={false} autoRotateSpeed={10} />
+      <mesh
+        ref={ref}
+        rotation={new Euler(0,2,20)}
+      >
+        <OrbitControls
+          autoRotate={true}
+          autoRotateSpeed={10}
+        />
         <mesh position={[x, y, z + 1]}>
-          <boxGeometry args={[0, 1, 1]}  />
-          <meshStandardMaterial color={colors[randInt(0, 5)]}/>
+          <boxGeometry args={[0, 1, 1]} />
+          <meshStandardMaterial color={colors[randInt(0, 5)]} />
         </mesh>
         <mesh position={[x + 1, y, z + 1]}>
           <boxGeometry args={[0, 1, 1]} />
@@ -86,7 +97,7 @@ export function Cube() {
         <ambientLight />
         <pointLight position={[10, 20, 10]} />
         {/* {cube3x3} */}
-        {cube1x1({ x: 0, y: 0, z: 0, colors: cores })}
+        {cube1x1({ x: 0, y: 1, z: 0, colors: cores })}
       </Canvas>
     </div>
   );
