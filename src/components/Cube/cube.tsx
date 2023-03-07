@@ -17,7 +17,8 @@ export function Cube() {
 
   useEffect(() => {
     refCube3x3?.current?.setRotationFromAxisAngle(new Vector3(1, 0, 0), 60)
-  },[])
+  }, [])
+  
 
   const defaultColors = ["black", "black", "black", "black", "black", "black"];
 
