@@ -103,53 +103,6 @@ function cube1x1({
   );
 }
 
-const buttons = (
-  <div>
-    <button
-      onClick={() => {
-        setDegX(degX + 0.1);
-      }}
-    >
-      X+
-    </button>
-    <button
-      onClick={() => {
-        setDegX(degX - 0.1);
-      }}
-    >
-      X-
-    </button>
-    <button
-      onClick={() => {
-        setDegY(degY + 0.1);
-      }}
-    >
-      Y+
-    </button>
-    <button
-      onClick={() => {
-        setDegY(degY - 0.1);
-      }}
-    >
-      Y-
-    </button>
-    <button
-      onClick={() => {
-        setDegZ(degZ + 0.1);
-      }}
-    >
-      Z+
-    </button>
-    <button
-      onClick={() => {
-        setDegZ(degZ - 0.1);
-      }}
-    >
-      Z-
-    </button>
-  </div>
-);
-
 export function Cube() {
   const cube3x3 = (
     <mesh>
