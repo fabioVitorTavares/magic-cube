@@ -1,13 +1,10 @@
-import { Cube } from "../Cube/cube";
-import './style.css'
+import { Canva } from "../Canva";
+import "./style.css";
 
 export function App() {
-
   return (
     <div className="app">
-      <Cube/>
+      <Canva />
     </div>
   );
 }
-
-
