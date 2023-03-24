@@ -1,52 +1,71 @@
 import { useEffect, useRef, useState } from "react";
-import { TCube, TPoint2D } from "../../types/types";
+import { TAngles, TCubeProps, TPoint2D } from "../../types/types";
 import "./style.css";
 
-function Cube<TCube>(points: TPoint2D, size: number) {
-  const x = points.x;
-  const y = points.y;
-  const s = size;
-
-  const pontos = [{ x: x, y: y, z: 0 },
-    { x: x + s, y: y, z: 0 },
-    { x: x + s, y: y + s, z: 0 },
-    { x: x, y: y + s, z: 0 },
-    { x: x, y: y + s, z: s },
-    { x: x + s, y: y + s, z: s },
-    { x: x + s, y: y, z: s },
-    { x: x, y: y, z: s }]
-  
-  // return {
-  //   p000: { x: x, y: y, z: 0 },
-  //   p100: { x: x + s, y: y, z: 0 },
-  //   p110: { x: x + s, y: y + s, z: 0 },
-  //   p010: { x: x, y: y + s, z: 0 },
-  //   p011: { x: x, y: y + s, z: s },
-  //   p111: { x: x + s, y: y + s, z: s },
-  //   p101: { x: x + s, y: y, z: s },
-  //   p001: { x: x, y: y, z: s },
-  // };
-  return pontos;
-}
-
 export function Canva() {
+  const [ax, setAx] = useState<number>(0);
+
   const refCanva = useRef<HTMLCanvasElement>(null);
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>();
   useEffect(() => {
     setCtx(refCanva.current?.getContext("2d"));
   }, []);
 
-  const p = Cube({x:10,y:10},50)
+  useEffect(() => {
+    console.log(ax);
+  }, [ax]);
+
+  function Cube<TCubeProps>(position: TPoint2D, size: number) {
+    const x = position.x;
+    const y = position.y;
+    const s = size;
+    const s2 = size / 2;
+
+    const dy = ax * s * 2;
+
+    const points = [
+      { x: x - s2, y: y - s2 + dy, z: 0 - s2 },
+      { x: x + s2, y: y - s2 + dy, z: 0 - s2 },
+      { x: x + s2, y: y + s2 - dy, z: 0 - s2 },
+      { x: x - s2, y: y + s2 - dy, z: 0 - s2 },
+      { x: x - s2, y: y + s2 - dy, z: 0 + s2 },
+      { x: x + s2, y: y + s2 - dy, z: 0 + s2 },
+      { x: x + s2, y: y - s2 + dy, z: 0 + s2 },
+      { x: x - s2, y: y - s2 + dy, z: 0 + s2 },
+    ];
+
+    const angles = {
+      x: 0,
+      y: 0,
+      z: 0,
+    };
+
+    return { position, points, angles };
+  }
+
+  function rotate(angles: TAngles, cube: TCubeProps) {}
+
+  useEffect(() => {
+    if (ctx) {
+      clearCanvas();
+      const c = Cube({ x: 100, y: 100 }, 50);
+      ctx.strokeStyle = "red";
+      ctx.moveTo(c.points[0].x, c.points[0].y);
+      for (const p of c.points) {
+        ctx.lineTo(p.x, p.y);
+      }
+      ctx.stroke();
+    }
+  }, [ax]);
+
 
   function draw() {
-
     console.log("drawing...");
-    console.log(p);
     if (ctx) {
       ctx.strokeStyle = "red";
-      ctx.moveTo(p[0].x, p[0].y);
-      for (const iterator of p) {
-        ctx.lineTo(iterator.x, iterator.y);
+      ctx.moveTo(c.points[0].x, c.points[0].y);
+      for (const p of c.points) {
+        ctx.lineTo(p.x, p.y);
       }
       ctx.stroke();
       // ctx.fillStyle = "red";
@@ -66,9 +85,16 @@ export function Canva() {
     }
   }
 
+  function clearCanvas() {
+    if (ctx) ctx.clearRect(0, 0, 200, 200);
+  }
+
   return (
     <div>
       <button onClick={() => draw()}>draw</button>
+      <button onClick={() => setAx(ax >= 1 ? 0 : ax + 0.05)}>+</button>
+      <button onClick={() => setAx(ax <= 0.06 ? 1 : ax - 0.05)}>-</button>
+      <button onClick={() => clearCanvas()}>clear</button>
       <canvas
         className="canva"
         ref={refCanva}

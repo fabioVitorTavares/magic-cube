@@ -16,13 +16,25 @@ export type TPoint3D = TPoint2D &{
   z: number,
 }
 
-export type TCube = {
-  p000: TPoint3D,
-  p100: TPoint3D,
-  p110: TPoint3D,
-  p010: TPoint3D,
-  p011: TPoint3D,
-  p111: TPoint3D,
-  p101: TPoint3D,
-  p001: TPoint3D,
+export type TCubePoints = [
+  TPoint3D,
+  TPoint3D,
+  TPoint3D,
+  TPoint3D,
+  TPoint3D,
+  TPoint3D,
+  TPoint3D,
+  TPoint3D
+]
+
+export type TAngles = {
+  x: number,
+  y: number,
+  z: number
+}
+
+export type TCubeProps = {
+  position: TPoint2D,
+  points: TCubePoints,
+  angles: TAngles
 }
