@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
+import * as THREE from "three";
 import { Cube } from "../Cube/cube";
 import './style.css'
-import * as THREE from "three";
+import { useEffect } from "react";
 
 export function App() {
-
 
   useEffect(() => {
     const scene = new THREE.Scene();
@@ -60,5 +59,3 @@ export function App() {
     </div>
   );
 }
-
-
