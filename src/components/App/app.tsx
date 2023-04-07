@@ -1,26 +1,37 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 import { Cube } from "../Cube/cube";
 import './style.css'
-import { useEffect } from "react";
+import { LegacyRef, MutableRefObject, useEffect, useRef } from "react";
+import { CanvasProps } from "../../types/types";
+
+
+function Canvas({reference}: CanvasProps ) {
+  return (
+    <canvas className='canva' ref={reference}/>
+  )
+}
 
 export function App() {
 
-  useEffect(() => {
-    const scene = new THREE.Scene();
+  const canvasRef = useRef<HTMLCanvasElement>() as MutableRefObject<HTMLCanvasElement>
 
-    const camera = new THREE.PerspectiveCamera(
-      50,
-      window.innerWidth / window.innerHeight,
-      1,
-      1000
-    );
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvasRef.current,
+    antialias: true,
+  });
+
+  const camera = new THREE.PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    1,
+    1000
+  );
+
+  useEffect(() => {
+    const scene = new THREE.Scene();    
     camera.position.z = 96;
 
-    const canvas = document.getElementById('myThreeJsCanvas') as HTMLCanvasElement;
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: true,
-    });
+    
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement)
@@ -37,12 +48,15 @@ export function App() {
     const boxGeometry = new THREE.BoxGeometry(16, 16, 16);
     const boxMaterial = new THREE.MeshNormalMaterial();
     const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    
+    
+    
     scene.add(boxMesh);
 
 
     const animate = () => {
 
-      boxMesh.rotation.x += 0.05;
+      // boxMesh.rotation.x += 0.05;
       // boxMesh.rotation.y += 0.05;
       // boxMesh.rotation.z -= 0.05;
       renderer.render(scene, camera);
@@ -55,7 +69,7 @@ export function App() {
 
   return (
     <div>
-     <canvas id="myThreeJsCanvas" />
+      <Canvas reference={canvasRef}/>
     </div>
   );
 }
